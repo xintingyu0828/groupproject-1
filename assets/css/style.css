@@ -1,0 +1,8 @@
+.event_select_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.event_select_item {
+    margin: 10px 5px;
+}

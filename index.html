@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Appdventure</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+        crossorigin="anonymous">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="assets\images\Appvanture_Logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> Appvanture
+            </a>
+        </nav>
+
+        <br>
+        <!-- Login Card -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        Login:
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="userInputName">Full Name</label>
+                            <input type="text" class="form-control" id="userInputName" placeholder="Your Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="userInputEmail">Email address</label>
+                            <input type="email" class="form-control" id="userInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="userInputPassword">Password</label>
+                            <input type="password" class="form-control" id="userInputPassword" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <!-- Event Search Card -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        Event Search:
+                    </div>
+                    <form class="needs-validation" novalidate>
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <label for="userInputCity">City</label>
+                                <input type="text" class="form-control" id="userInputCity" placeholder="City name" value="Chicago" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="userInputDate">Date</label>
+                                <input type="date" class="form-control" id="userInputDate" required>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <!-- Event Select Card -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        Event Select:
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 event_select_container">
+
+                            <div class="card event_select_item" style="width: 16rem;">
+                                <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Event number 1</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">date and time</h6>
+                                    <p class="card-text">Some information about this event like location, links to ticket websites etc.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Pick event</a>
+                                </div>
+                            </div>
+
+                            <div class="card event_select_item" style="width: 16rem;">
+                                <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Event number 2</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">date and time</h6>
+                                    <p class="card-text">Some information about this event like location, links to ticket websites etc.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Pick event</a>
+                                </div>
+                            </div>
+
+                            <div class="card event_select_item" style="width: 16rem;">
+                                <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Event number 3</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">date and time</h6>
+                                    <p class="card-text">Some information about this event like location, links to ticket websites etc.
+                                    </p>
+                                    <a href="#" class="btn btn-primary">Pick event</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        Event Comment:
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="event_comment_details">
+                            <h5>event name and other details</h5>
+                            <!-- the br are temp - just for disply -->
+                            <br>
+                            <!-- the br are temp - just for disply -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="event_comment_users">
+                            <h5>users in this event</h5>
+                            <!-- the br are temp - just for disply -->
+                            <br>
+                            <!-- the br are temp - just for disply -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="event_comment_area">
+                            comment area
+                            <!-- the br are temp - just for disply -->
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <!-- the br are temp - just for disply -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JQuery -->
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
+        crossorigin='anonymous'></script>
+    <!-- Javascript -->
+    <script src="./assets/javascript/javascript.js"></script>
+</body>
+
+</html>
