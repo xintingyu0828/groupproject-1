@@ -1,8 +1,10 @@
-.event_select_container {
+#event_select_container {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .event_select_item {
     margin: 10px 5px;
+    min-width: 250px;
 }
