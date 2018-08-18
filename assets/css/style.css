@@ -1,10 +1,18 @@
+
+
+
+/* Event select cards */
 #event_select_container {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
-
 .event_select_item {
     margin: 10px 5px;
-    min-width: 250px;
+    min-width: 280px;
+}
+.event_img {
+    width: 280px;
+    height: 210px;
+    object-fit: cover;
 }
