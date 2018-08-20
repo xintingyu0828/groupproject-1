@@ -101,90 +101,157 @@ $("#searchingBtn").on("click", function () {
         //$("#event_comment_users").text();  -  get all users to this event from Firebase
     });
 
+});
 
 
-    // ==================================================================
-    // Firebase
-    var dataRef = firebase.database();
 
-    // Get Elements
-    const txtEmail = document.getElementById("txtEmail");
-    const txtPassword = document.getElementById("txtPassword");
-    const btnLogin = document.getElementById('btnLogin');
-    const btnSignUp = document.getElementById('btnSignUp');
-    const btnLogout = document.getElementById('btnLogout');
+// ==================================================================
+// Firebase
+var dataRef = firebase.database();
+// Get Elements
+const txtEmail = document.getElementById("txtEmail");
+const txtPassword = document.getElementById("txtPassword");
+const btnLogin = document.getElementById('btnLogin');
+const btnSignUp = document.getElementById('btnSignUp');
+const btnLogout = document.getElementById('btnLogout');
 
-    // Add Login Event
-    btnLogin.addEventListener('click', function (e) {
-        // Get email and pass
-        const email = txtEmail.value;
-        const pass = txtPassword.value;
-        const auth = firebase.auth();
-        //Sign in
-        const promise = auth.signInWithEmailAndPassword(email, pass);
+// Add Login Event
+btnLogin.addEventListener('click', function (e) {
+    // Get email and pass
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    const auth = firebase.auth();
+    //Sign in
+    const promise = auth.signInWithEmailAndPassword(email, pass);
 
-    })
+})
 
-    // Add signup event
-    btnSignUp.addEventListener('click', function (e) {
-        // Get email and pass
-        const email = txtEmail.value;
-        const pass = txtPassword.value;
-        const auth = firebase.auth();
+// Add signup event
+btnSignUp.addEventListener('click', function (e) {
+    // Get email and pass
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    const auth = firebase.auth();
 
-        console.log(email);
+    console.log(email);
 
-        // Push data to database
-        dataRef.ref('users/').push({
-            email: email,
-        });
-
-        //Sign in
-        const promise = auth.createUserWithEmailAndPassword(email, pass);
-
-
-    })
-
-    // Signout
-    btnLogout.addEventListener('click', function (e) {
-        firebase.auth().signOut();
-    })
-
-    // Add a realtime listener
-    firebase.auth().onAuthStateChanged(function (firebaseUser) {
-        if (firebaseUser) {
-            console.log(firebaseUser);
-            $('#btnLogout').show()
-
-        } else {
-            console.log('not logged in');
-            $('#btnLogout').hide();
-        }
+    // Push data to database
+    dataRef.ref('users/').push({
+        email: email,
     });
 
-    // Data for events
-    // add click event for liked events and store event to database
-
-    // $("#event_select_item").on("click", function (event) {
-    //     event.preventDefault();
+    //Sign in
+    const promise = auth.createUserWithEmailAndPassword(email, pass);
 
 
-    //     // Code in the logic for storing and retrieving the most recent user.
-    //     // Don't forget to provide initial data to your Firebase database.
-    //     eventTitle = $("#data-")
-    //     UID = $("#data-")
+})
+
+// Signout
+btnLogout.addEventListener('click', function (e) {
+    firebase.auth().signOut();
+})
+
+// Add a realtime listener
+firebase.auth().onAuthStateChanged(function (firebaseUser) {
+    if (firebaseUser) {
+        console.log(firebaseUser);
+        $('#btnLogout').show()
+
+        // "set info" after choosing an event card
+        $(document).on("click", ".event_select_item", function () {
+            event.preventDefault();
+            //console.log($(this)) - that's another way to get info;
+            var eventTitle = this.getAttribute("data-event_title");
+            $("#event_comment_window").text(eventTitle);
+            var eventID = this.getAttribute("data-event_id");
 
 
-    //     // Code for the push
-    //     dataRef.ref("events/").push({
-    //         eventTitle: eventTitle,
-    //         UID: UID,
-    //         dateAdded: firebase.database.ServerValue.TIMESTAMP
-    //     });
-    // });
+            // for loop to check if the id is in database
+            dataRef.ref("events/").once("value", function (snapshot) {
+                var response = snapshot.val();
+                console.log(response);
 
-    // ====================================================
+                var inDatabase = false;
 
+                for (var key in response) {
+                    var record = response[key];
+                    if (record.id === eventID) {
+                        console.log("already in the database")
+                        inDatabase = true;
+                        savedKey = key;
+                    }
+                }
+                if (inDatabase === true) {
+                    // Push data to database
+                    dataRef.ref('events/' + savedKey + '/users').push({
+                        userEmail
+                    });
+                } else {
+                    //if false - 
+                    //create this event on firebase with eventID
+                    eventsRef = dataRef.ref("/events");
+                    userEmail = firebaseUser.email;
+                    //set user details on this event
+                    eventsRef.push({
+                        id: eventID,
+                        users: userEmail
+                    });
+                }
+            });
 
-    // =============================================================
+            //show the info from this event 
+            //var eventLength = eventsRef.users.length;
+            //var newEventKey = eventLength + 1
+            //if true -
+            //for loop to check if user details is in the event
+            //    if false -
+            //    push user details on this event
+            // eventsRef.push({
+            //     users: { newEventKey: email }
+            // });
+            //    show the info from this event
+
+            //    if true -
+            //    show the info from this event
+        });
+
+    } else {
+        console.log('not logged in');
+        $('#btnLogout').hide();
+    }
 });
+
+// Data for events
+// add click event for liked events and store event to database
+
+// $("#event_select_item").on("click", function (event) {
+//     event.preventDefault();
+
+
+//     // Code in the logic for storing and retrieving the most recent user.
+//     // Don't forget to provide initial data to your Firebase database.
+//     eventTitle = $("#data-")
+//     UID = $("#data-")
+
+
+//     // Code for the push
+//     dataRef.ref("events/").push({
+//         eventTitle: eventTitle,
+//         UID: UID,
+//         dateAdded: firebase.database.ServerValue.TIMESTAMP
+//     });
+// });
+
+// ====================================================
+
+
+// =============================================================
+
+
+
+
+
+// ====================================================
+
+
+// =============================================================
