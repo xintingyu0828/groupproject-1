@@ -68,121 +68,123 @@ $("#searchingBtn").on("click", function () {
             var eventImgUrl = response.events[i].performers[0].image;
             console.log(eventImgUrl);
             if (eventImgUrl === null) {
-                var eventImgUrl = "http://demo.yendif.com/wordpress/wp-content/uploads/2016/10/event1.jpg";
+                var eventImgUrl = "assets/images/eventDefaultImg.jpg";
             }
             var eventDate = response.events[i].datetime_local;
             var fixEventDate = fixTheDateAndTime(eventDate);
-            var eventTitle = response.events[i].title;
-            var eventID = response.events[i].id;
+            var cardEventTitle = response.events[i].title;
+            var cardEventID = response.events[i].id;
             $("#event_select_container").append(
-                `<div class="card event_select_item" style="width: 16rem;">
+                `<div class="card event_select_item" style="width: 16rem;" data-event_id="${cardEventID}" data-event_title="${cardEventTitle}">
                     <img class="card-img-top event_img" src="${eventImgUrl}" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">${eventTitle}</h5>
+                        <h5 class="card-title">${cardEventTitle}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${fixEventDate}</h6>
-                        <p class="card-text">${eventID}</p>
+                        <p class="card-text">${cardEventID}</p>
                         <a href="#" class="btn btn-primary">Pick event</a>
                     </div>
                 </div>`)
 
         }
 
-});
-});
-
-
-
-// ==================================================================
-// Firebase
-var dataRef = firebase.database();
-
-// Get Elements
-const txtEmail = document.getElementById("txtEmail");
-const txtPassword = document.getElementById("txtPassword");
-const btnLogin = document.getElementById('btnLogin');
-const btnSignUp = document.getElementById('btnSignUp');
-const btnLogout = document.getElementById('btnLogout');
-
-// Add Login Event
-btnLogin.addEventListener('click', function (e) {
-    // Get email and pass
-    const email = txtEmail.value;
-    const pass = txtPassword.value;
-    const auth = firebase.auth();
-    //Sign in
-    const promise = auth.signInWithEmailAndPassword(email, pass);
-
-})
-
-// Add signup event
-btnSignUp.addEventListener('click', function (e) {
-    // Get email and pass
-    const email = txtEmail.value;
-    const pass = txtPassword.value;
-    const auth = firebase.auth();
-
-    console.log(email);
-
-    // Push data to database
-    dataRef.ref('users/').push({
-        email: email,
     });
 
-    //Sign in
-    const promise = auth.createUserWithEmailAndPassword(email, pass);
-
-
-})
-
-// Signout
-btnLogout.addEventListener('click', function (e) {
-    firebase.auth().signOut();
-})
-
-// Add a realtime listener
-firebase.auth().onAuthStateChanged(function (firebaseUser) {
-    if (firebaseUser) {
-        console.log(firebaseUser);
-        $('#btnLogout').show()
-
-    } else {
-        console.log('not logged in');
-        $('#btnLogout').hide();
-    }
-})
-
-// Data for events
-// add click event for liked events and store event to database
-
-// $("#event_select_item").on("click", function (event) {
-//     event.preventDefault();
-
-
-//     // Code in the logic for storing and retrieving the most recent user.
-//     // Don't forget to provide initial data to your Firebase database.
-//     eventTitle = $("#data-")
-//     UID = $("#data-")
-
-
-//     // Code for the push
-//     dataRef.ref("events/").push({
-//         eventTitle: eventTitle,
-//         UID: UID,
-//         dateAdded: firebase.database.ServerValue.TIMESTAMP
-//     });
-// });
-
-// ====================================================
-
-
-// =============================================================
+    // "set info" after choosing an event card
+    $(document).on("click", ".event_select_item", function () {
+        event.preventDefault();
+        //console.log($(this)) - that's another way to get info;
+        var eventID = this.getAttribute("data-event_id");
+        // for loop to check if the id was used
+        // if not - create this event on firebase
+        var eventTitle = this.getAttribute("data-event_title");
+        $("#event_comment_window").text(eventTitle);
+        //$("#event_comment_users").text();  -  get all users to this event from Firebase
+    });
 
 
 
+    // ==================================================================
+    // Firebase
+    var dataRef = firebase.database();
+
+    // Get Elements
+    const txtEmail = document.getElementById("txtEmail");
+    const txtPassword = document.getElementById("txtPassword");
+    const btnLogin = document.getElementById('btnLogin');
+    const btnSignUp = document.getElementById('btnSignUp');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // Add Login Event
+    btnLogin.addEventListener('click', function (e) {
+        // Get email and pass
+        const email = txtEmail.value;
+        const pass = txtPassword.value;
+        const auth = firebase.auth();
+        //Sign in
+        const promise = auth.signInWithEmailAndPassword(email, pass);
+
+    })
+
+    // Add signup event
+    btnSignUp.addEventListener('click', function (e) {
+        // Get email and pass
+        const email = txtEmail.value;
+        const pass = txtPassword.value;
+        const auth = firebase.auth();
+
+        console.log(email);
+
+        // Push data to database
+        dataRef.ref('users/').push({
+            email: email,
+        });
+
+        //Sign in
+        const promise = auth.createUserWithEmailAndPassword(email, pass);
 
 
+    })
+
+    // Signout
+    btnLogout.addEventListener('click', function (e) {
+        firebase.auth().signOut();
+    })
+
+    // Add a realtime listener
+    firebase.auth().onAuthStateChanged(function (firebaseUser) {
+        if (firebaseUser) {
+            console.log(firebaseUser);
+            $('#btnLogout').show()
+
+        } else {
+            console.log('not logged in');
+            $('#btnLogout').hide();
+        }
+    });
+
+    // Data for events
+    // add click event for liked events and store event to database
+
+    // $("#event_select_item").on("click", function (event) {
+    //     event.preventDefault();
 
 
+    //     // Code in the logic for storing and retrieving the most recent user.
+    //     // Don't forget to provide initial data to your Firebase database.
+    //     eventTitle = $("#data-")
+    //     UID = $("#data-")
 
 
+    //     // Code for the push
+    //     dataRef.ref("events/").push({
+    //         eventTitle: eventTitle,
+    //         UID: UID,
+    //         dateAdded: firebase.database.ServerValue.TIMESTAMP
+    //     });
+    // });
 
+    // ====================================================
+
+
+    // =============================================================
+});
