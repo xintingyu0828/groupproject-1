@@ -27,6 +27,16 @@
         </nav>
 
         <br>
+        <!-- Test Login -->
+        <div class="container">
+            <input id="txtEmail" type="email" placeholder="Email">
+            <input id="txtPassword" type="password" placeholder="Password">
+            <button id="btnLogin" class="btn btn-action">Log in
+            </button>
+            <button id="btnSignUp" class="btn btn-secondary">Sing up</button>
+            <button id="btnLogout" class="btn btn-action">Log out</button>
+        </div>
+
         <!-- Login Card -->
         <div class="row">
             <div class="col-sm-12">
@@ -156,6 +166,22 @@
     <!-- JQuery -->
     <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
         crossorigin='anonymous'></script>
+
+    <!-- Firebase -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.4.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDSAITKGVjxvg1E336zHfJNohuvwi09kao",
+            authDomain: "appventure-6eab7.firebaseapp.com",
+            databaseURL: "https://appventure-6eab7.firebaseio.com",
+            projectId: "appventure-6eab7",
+            storageBucket: "appventure-6eab7.appspot.com",
+            messagingSenderId: "739960849606"
+        };
+        firebase.initializeApp(config);
+    </script>
     <!-- Javascript -->
     <script src="./assets/javascript/javascript.js"></script>
 </body>
