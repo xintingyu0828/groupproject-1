@@ -20,7 +20,6 @@
 })();
 
 // Fetching user searched city and date:
-
 $("#searchingBtn").on("click", function () {
     event.preventDefault();
     $("#event_select_container").empty();
@@ -28,7 +27,7 @@ $("#searchingBtn").on("click", function () {
     var date = $("#userInputDate").val();
     console.log(date);
     // API url for city + date search:
-    var queryURL = "https://api.seatgeek.com/2/events?venue.city=" + city + "&datetime_local.gt=" + date + "&client_id=MTE1ODQyMjB8MTUzNDQzNTkwNi4wMw";
+    var queryURL = "https://api.seatgeek.com/2/events?per_page=12&venue.city=" + city + "&datetime_local.gt=" + date + "&client_id=MTE1ODQyMjB8MTUzNDQzNTkwNi4wMw";
 
     function fixTheDateAndTime(dateandtime) {
         var dateAndTimeArray = dateandtime.split("T");
@@ -63,25 +62,30 @@ $("#searchingBtn").on("click", function () {
     }).then(function (response) {
 
         console.log(response);
+
         for (var i = 0; i < response.events.length; i++) {
 
+            var eventImgUrl = response.events[i].performers[0].image;
+            console.log(eventImgUrl);
+            if (eventImgUrl === null) {
+                var eventImgUrl = "http://demo.yendif.com/wordpress/wp-content/uploads/2016/10/event1.jpg";
+            }
             var eventDate = response.events[i].datetime_local;
             var fixEventDate = fixTheDateAndTime(eventDate);
             var eventTitle = response.events[i].title;
             var eventID = response.events[i].id;
-
             $("#event_select_container").append(
                 `<div class="card event_select_item" style="width: 16rem;">
-                  <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
-                  <div class="card-body">
-                      <h5 class="card-title">${eventTitle}</h5>
-                      <h6 class="card-subtitle mb-2 text-muted">${fixEventDate}</h6>
-                      <p class="card-text">${eventID}</p>
-                      <a href="#" class="btn btn-primary">Pick event</a>
-                  </div>
-              </div>`
-            )
-        }
-    });
+                    <img class="card-img-top event_img" src="${eventImgUrl}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">${eventTitle}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">${fixEventDate}</h6>
+                        <p class="card-text">${eventID}</p>
+                        <a href="#" class="btn btn-primary">Pick event</a>
+                    </div>
+                </div>`)
 
+        }
+
+    });
 });
