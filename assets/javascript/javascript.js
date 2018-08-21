@@ -22,13 +22,15 @@
 // Fetching user searched city and date:
 $("#searchingBtn").on("click", function () {
     event.preventDefault();
+
     $("#event_select_container").empty();
     var city = $("#userInputCity").val().trim();
     var date = $("#userInputDate").val();
-    console.log(date);
-    // API url for city + date search:
+
+    // SeatGeek API url for city + date search:
     var queryURL = "https://api.seatgeek.com/2/events?per_page=12&venue.city=" + city + "&datetime_local.gt=" + date + "&client_id=MTE1ODQyMjB8MTUzNDQzNTkwNi4wMw";
 
+    // Function to make US time:
     function fixTheDateAndTime(dateandtime) {
         var dateAndTimeArray = dateandtime.split("T");
         // Changing the date from UTC to US local
@@ -56,6 +58,7 @@ $("#searchingBtn").on("click", function () {
         };
     };
 
+    // SeatGeek API
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -65,18 +68,21 @@ $("#searchingBtn").on("click", function () {
 
         for (var i = 0; i < response.events.length; i++) {
 
+            var noImg = " ";
             var eventImgUrl = response.events[i].performers[0].image;
             console.log(eventImgUrl);
             if (eventImgUrl === null) {
+                noImg = "noImg";
                 var eventImgUrl = "assets/images/eventDefaultImg.jpg";
             }
+            var eventType = response.events[i].type;
             var eventDate = response.events[i].datetime_local;
             var fixEventDate = fixTheDateAndTime(eventDate);
             var cardEventTitle = response.events[i].title;
             var cardEventID = response.events[i].id;
             $("#event_select_container").append(
                 `<div class="card event_select_item" style="width: 16rem;" data-event_id="${cardEventID}" data-event_title="${cardEventTitle}">
-                    <img class="card-img-top event_img" src="${eventImgUrl}" alt="Card image cap">
+                    <img class="card-img-top event_img ${noImg}" data-type=${eventType} src="${eventImgUrl}" alt="Event image">
                     <div class="card-body">
                         <h5 class="card-title">${cardEventTitle}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${fixEventDate}</h6>
@@ -86,6 +92,23 @@ $("#searchingBtn").on("click", function () {
                 </div>`)
 
         }
+
+        console.log("-----------------");
+        $(".noImg").each(function () {
+            console.log(this);
+            var type = $(this).attr("data-type");
+            var imgSrc = $(this);
+            // Unsplash API url for query search:
+            var imgQueryURL = "https://api.unsplash.com/search/photos?query=" + type + "&per_page=1&client_id=0e8aefac333279df358a5cb77c7e1be1b59af8de38ea6175cee56d86d5e9ecec";
+            $.ajax({
+                url: imgQueryURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(imgSrc);
+                var newImg = (response.results[0].urls.small);
+                imgSrc.attr("src", newImg);
+            });
+        });
 
     });
 
