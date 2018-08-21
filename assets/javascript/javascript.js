@@ -132,8 +132,8 @@ $("#searchingBtn").on("click", function () {
 // Firebase
 var database = firebase.database();
 // Get Elements
-const txtEmail = document.getElementById("txtEmail");
-const txtPassword = document.getElementById("txtPassword");
+const txtEmail = document.getElementById("loginEmail");
+const txtPassword = document.getElementById("loginPassword");
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
@@ -178,7 +178,14 @@ btnLogout.addEventListener('click', function (e) {
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
     if (firebaseUser) {
         console.log(firebaseUser);
-        $('#btnLogout').show()
+        // Hide login cover
+        $(".login-cover").hide();
+
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.close();
 
         // "set info" after choosing an event card
         $(document).on("click", ".event_select_item", function () {
@@ -241,10 +248,31 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
         });
 
     } else {
-        console.log('not logged in');
-        $('#btnLogout').hide();
+        $(".login-cover").show();
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.showModal();
     }
 });
+
+$('#loginBtn').click(function () {
+    var email = $('#loginEmail').val();
+    var password = $('#loginPassword').val();
+
+    if (email != "" && password != "") {
+        $('#loginProgress').show();
+        $('#loginBtn').hide();
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            $('#loginError').show().text(error.message);
+            $('#loginProgress').hide();
+            $('#loginBtn').show();
+        })
+
+    }
+})
 
 // Data for events
 // add click event for liked events and store event to database
