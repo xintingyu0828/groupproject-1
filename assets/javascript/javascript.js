@@ -130,7 +130,7 @@ $("#searchingBtn").on("click", function () {
 
 // ==================================================================
 // Firebase
-var dataRef = firebase.database();
+var database = firebase.database();
 // Get Elements
 const txtEmail = document.getElementById("txtEmail");
 const txtPassword = document.getElementById("txtPassword");
@@ -159,7 +159,7 @@ btnSignUp.addEventListener('click', function (e) {
     console.log(email);
 
     // Push data to database
-    dataRef.ref('users/').push({
+    database.ref('users/').push({
         email: email,
     });
 
@@ -190,7 +190,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 
 
             // for loop to check if the id is in database
-            dataRef.ref("events/").once("value", function (snapshot) {
+            database.ref("events/").once("value", function (snapshot) {
                 var response = snapshot.val();
                 console.log(response);
 
@@ -206,19 +206,21 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
                 }
                 if (inDatabase === true) {
                     // Push data to database
-                    dataRef.ref('events/' + savedKey + '/users').push({
-                        userEmail
+                    database.ref('events/' + id).push({
+                        email: userEmail
                     });
                 } else {
                     //if false - 
                     //create this event on firebase with eventID
-                    eventsRef = dataRef.ref("/events");
+                    eventsRef = database.ref("/events/");
                     userEmail = firebaseUser.email;
                     //set user details on this event
-                    eventsRef.push({
-                        id: eventID,
-                        users: userEmail
-                    });
+                    eventsRef.set(eventID);
+                    // eventsRef.push({
+
+                    //     email: userEmail
+
+                    // });
                 }
             });
 
@@ -258,7 +260,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 
 
 //     // Code for the push
-//     dataRef.ref("events/").push({
+//     database.ref("events/").push({
 //         eventTitle: eventTitle,
 //         UID: UID,
 //         dateAdded: firebase.database.ServerValue.TIMESTAMP
