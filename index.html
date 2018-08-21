@@ -7,101 +7,79 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Appdventure</title>
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+
+
+
 </head>
 
 <body>
 
     <div class="container">
         <!-- Header -->
-        <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <img src="assets\images\Appvanture_Logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> Appvanture
-            </a>
-        </nav>
+        <h1>Appvanture</h1>
 
         <br>
-        <!-- Test Login -->
-        <div class="container">
-            <input id="txtEmail" type="email" placeholder="Email">
-            <input id="txtPassword" type="password" placeholder="Password">
-            <button id="btnLogin" class="btn btn-action">Log in
-            </button>
-            <button id="btnSignUp" class="btn btn-secondary">Sing up</button>
-            <button id="btnLogout" class="btn btn-action">Log out</button>
-        </div>
 
-        <!-- Login Card -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        Login:
-                    </div>
-                    <form>
-                        <div class="form-group">
-                            <label for="userInputName">Full Name</label>
-                            <input type="text" class="form-control" id="userInputName" placeholder="Your Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="userInputEmail">Email address</label>
-                            <input type="email" class="form-control" id="userInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="userInputPassword">Password</label>
-                            <input type="password" class="form-control" id="userInputPassword" placeholder="Password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <!-- Login Card
+        <div id="bg"></div>
 
-        <br>
+        <form action="">
+
+            <label for=""></label>
+            <input type="text" name="" id="" placeholder="email" class="email">
+
+            <label for=""></label>
+            <input type="password" name="" id="" placeholder="password" class="pass">
+
+            <button type="submit">login to your account</button>
+
+        </form> -->
+
+
         <!-- Event Search Card -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        Event Search:
-                    </div>
-                    <form class="needs-validation" novalidate>
-                        <div class="form-row">
-                            <div class="col-sm-6">
-                                <label for="userInputCity">City</label>
-                                <input type="text" class="form-control" id="userInputCity" placeholder="City name" value="Chicago" required>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="userInputDate">Date</label>
-                                <input type="date" class="form-control" id="userInputDate" required>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" id="searchingBtn" type="submit">Submit form</button>
-                    </form>
-                </div>
+
+
+        <div>
+            <h2>Find the Best Event for You!</h2>
+        </div>
+        <div id="searchevent" class="row">
+            <div class="col-sm-8">
+                <label for="userInputCity">City</label>
+                <input type="text" class="form-control" id="userInputCity" placeholder="City name" value="Chicago" required>
+            </div>
+            <div class="col-sm-8">
+                <label for="userInputDate">Date</label>
+                <input type="date" class="form-control" id="userInputDate" required>
+            </div>
+            <div>
+                <button class="btn btn-primary" id="searchingBtn" type="submit">Submit</button>
             </div>
         </div>
 
-        <br>
-        <!-- Event Select Card -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        Event Select:
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12" id="event_select_container">
+    </div>
 
-                            <!-- An example of a card: -->
 
-                            <!--<div class="card event_select_item" style="width: 16rem;">
+
+    <br>
+    <!-- Event Select Card -->
+    <div class="row" id="eventcard">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    Event Select:
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" id="event_select_container">
+
+                        <!-- An example of a card: -->
+
+                        <!--<div class="card event_select_item" style="width: 16rem;">
                                     <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">Event title</h5>
@@ -112,61 +90,60 @@
                                     </div>
                                 </div>-->
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <br>
-        <!-- Event Comment Card -->
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header" id="event_comment_window">
-                        Event Comment:
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12" id="event_comment_details">
-                            <h5>event name and other details</h5>
-                            <!-- the br are temp - just for disply -->
-                            <br>
-                            <!-- the br are temp - just for disply -->
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12" id="event_comment_users">
-                            <h5>users in this event</h5>
-                            <!-- the br are temp - just for disply -->
-                            <br>
-                            <!-- the br are temp - just for disply -->
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12" id="event_comment_area">
-                            comment area
-                            <!-- the br are temp - just for disply -->
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <!-- the br are temp - just for disply -->
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
+    <br>
+    <!-- Event Comment Card -->
+    <div class="row" id="commentcard">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header" id="event_comment_window">
+                    Event Comment:
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" id="event_comment_details">
+                        <h5>event name and other details</h5>
+                        <!-- the br are temp - just for disply -->
+                        <br>
+                        <!-- the br are temp - just for disply -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" id="event_comment_users">
+                        <h5>users in this event</h5>
+                        <!-- the br are temp - just for disply -->
+                        <br>
+                        <!-- the br are temp - just for disply -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" id="event_comment_area">
+                        comment area
+                        <!-- the br are temp - just for disply -->
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <!-- the br are temp - just for disply -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
     <!-- JQuery -->
-    <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
-        crossorigin='anonymous'></script>
+    <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=' crossorigin='anonymous'></script>
 
     <!-- Firebase -->
 
