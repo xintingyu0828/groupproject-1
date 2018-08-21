@@ -130,10 +130,10 @@ $("#searchingBtn").on("click", function () {
 
 // ==================================================================
 // Firebase
-var dataRef = firebase.database();
+var database = firebase.database();
 // Get Elements
-const txtEmail = document.getElementById("txtEmail");
-const txtPassword = document.getElementById("txtPassword");
+const txtEmail = document.getElementById("loginEmail");
+const txtPassword = document.getElementById("loginPassword");
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
@@ -159,7 +159,7 @@ btnSignUp.addEventListener('click', function (e) {
     console.log(email);
 
     // Push data to database
-    dataRef.ref('users/').push({
+    database.ref('users/').push({
         email: email,
     });
 
@@ -178,7 +178,14 @@ btnLogout.addEventListener('click', function (e) {
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
     if (firebaseUser) {
         console.log(firebaseUser);
-        $('#btnLogout').show()
+        // Hide login cover
+        $(".login-cover").hide();
+
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.close();
 
         // "set info" after choosing an event card
         $(document).on("click", ".event_select_item", function () {
@@ -190,7 +197,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 
 
             // for loop to check if the id is in database
-            dataRef.ref("events/").once("value", function (snapshot) {
+            database.ref("events/").once("value", function (snapshot) {
                 var response = snapshot.val();
                 console.log(response);
 
@@ -206,19 +213,21 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
                 }
                 if (inDatabase === true) {
                     // Push data to database
-                    dataRef.ref('events/' + savedKey + '/users').push({
-                        userEmail
+                    database.ref('events/' + id).push({
+                        email: userEmail
                     });
                 } else {
                     //if false - 
                     //create this event on firebase with eventID
-                    eventsRef = dataRef.ref("/events");
+                    eventsRef = database.ref("/events/");
                     userEmail = firebaseUser.email;
                     //set user details on this event
-                    eventsRef.push({
-                        id: eventID,
-                        users: userEmail
-                    });
+                    eventsRef.set(eventID);
+                    // eventsRef.push({
+
+                    //     email: userEmail
+
+                    // });
                 }
             });
 
@@ -239,10 +248,31 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
         });
 
     } else {
-        console.log('not logged in');
-        $('#btnLogout').hide();
+        $(".login-cover").show();
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.showModal();
     }
 });
+
+$('#loginBtn').click(function () {
+    var email = $('#loginEmail').val();
+    var password = $('#loginPassword').val();
+
+    if (email != "" && password != "") {
+        $('#loginProgress').show();
+        $('#loginBtn').hide();
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            $('#loginError').show().text(error.message);
+            $('#loginProgress').hide();
+            $('#loginBtn').show();
+        })
+
+    }
+})
 
 // Data for events
 // add click event for liked events and store event to database
@@ -258,7 +288,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 
 
 //     // Code for the push
-//     dataRef.ref("events/").push({
+//     database.ref("events/").push({
 //         eventTitle: eventTitle,
 //         UID: UID,
 //         dateAdded: firebase.database.ServerValue.TIMESTAMP
