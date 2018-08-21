@@ -64,38 +64,6 @@ body {
 
 /*login card*/
 
-form {
-    position: relative;
-    width: 250px;
-    margin: 0 auto;
-    background: rgba(130, 130, 130, .3);
-    padding: 20px 22px;
-    border: 1px solid;
-    border-top-color: rgba(255, 255, 255, .4);
-    border-left-color: rgba(255, 255, 255, .4);
-    border-bottom-color: rgba(60, 60, 60, .4);
-    border-right-color: rgba(60, 60, 60, .4);
-    float: right;
-}
-
-form input,
-form button,
-{
-    width: 212px;
-    border: 1px solid;
-    border-bottom-color: rgba(255, 255, 255, .5);
-    border-right-color: rgba(60, 60, 60, .35);
-    border-top-color: rgba(60, 60, 60, .35);
-    border-left-color: rgba(80, 80, 80, .45);
-    background-color: rgba(0, 0, 0, .2);
-    background-repeat: no-repeat;
-    padding: 8px 24px 8px 10px;
-    letter-spacing: .075em;
-    color: #fff;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
-    margin-bottom: 19px;
-}
-
 
 /*searh bar*/
 
@@ -136,6 +104,24 @@ form button,
     font-size: 13px;
 }
 
+#logout {
+    float: right;
+}
+
+#btnLogout {
+    background: none;
+    outline: skyblue;
+    width: 60px;
+    height: 30px;
+    font-size: 13px;
+    color: white;
+}
+
+#loginDialog {
+    opacity: 0.7;
+    filter: alpha(opacity=50);
+}
+
 
 /*event select cards*/
 
@@ -163,10 +149,11 @@ form button,
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756', GradientType=1);
 }
 
+
 /* Login Section */
 
 .login-cover {
-    background: #fff;
+    background: none;
     position: fixed;
     top: 0;
     left: 0;
