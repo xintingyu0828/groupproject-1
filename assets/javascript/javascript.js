@@ -158,10 +158,8 @@ btnSignUp.addEventListener('click', function (e) {
 
     console.log(email);
 
-    // Push data to database
-    database.ref('users/').push({
-        email: email,
-    });
+
+
 
     //Sign in
     const promise = auth.createUserWithEmailAndPassword(email, pass);
@@ -178,6 +176,8 @@ btnLogout.addEventListener('click', function (e) {
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
     if (firebaseUser) {
         console.log(firebaseUser);
+        userEmail = firebaseUser.email;
+        console.log(userEmail);
         // Hide login cover
         $(".login-cover").hide();
 
@@ -195,57 +195,66 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
             $("#event_comment_window").text(eventTitle);
             var eventID = this.getAttribute("data-event_id");
 
+            var alreadyClicked = false;
 
-            // for loop to check if the id is in database
-            database.ref("events/").once("value", function (snapshot) {
+
+
+            database.ref('events/' + eventID).once('value', function (snapshot) {
+
                 var response = snapshot.val();
                 console.log(response);
-
-                var inDatabase = false;
-
                 for (var key in response) {
-                    var record = response[key];
-                    if (record.id === eventID) {
-                        console.log("already in the database")
-                        inDatabase = true;
-                        savedKey = key;
+                    console.log('firing');
+                    var record = response[key].email;
+                    if (record === userEmail) {
+                        console.log('firing2');
+                        alreadyClicked = true;
+                        break;
                     }
+
                 }
-                if (inDatabase === true) {
+                if (alreadyClicked === false) {
+                    console.log('firing3');
                     // Push data to database
-                    database.ref('events/' + id).push({
+                    database.ref('events/' + eventID).push({
                         email: userEmail
                     });
-                } else {
-                    //if false - 
-                    //create this event on firebase with eventID
-                    eventsRef = database.ref("/events/");
-                    userEmail = firebaseUser.email;
-                    //set user details on this event
-                    eventsRef.set(eventID);
-                    // eventsRef.push({
+                }
+            })
 
-                    //     email: userEmail
 
-                    // });
+
+            database.ref('events/' + eventID).once('value', function (snapshot) {
+                $('#event_comment_users').text('');
+                var response = snapshot.val();
+                console.log(response);
+                for (var key in response) {
+                    var record = response[key].email;
+                    console.log(record);
+                    x = $('<p>').append(record)
+
+                    $('#event_comment_users').append(x);
                 }
             });
 
-            //show the info from this event 
-            //var eventLength = eventsRef.users.length;
-            //var newEventKey = eventLength + 1
-            //if true -
-            //for loop to check if user details is in the event
-            //    if false -
-            //    push user details on this event
-            // eventsRef.push({
-            //     users: { newEventKey: email }
-            // });
-            //    show the info from this event
 
-            //    if true -
-            //    show the info from this event
         });
+
+        //show the info from this event 
+        //var eventLength = eventsRef.users.length;
+        //var newEventKey = eventLength + 1
+        //if true -
+        //for loop to check if user details is in the event
+        //    if false -
+        //    push user details on this event
+        // eventsRef.push({
+        //     users: { newEventKey: email }
+        // });
+        //    show the info from this event
+
+        //    if true -
+        //    show the info from this event
+
 
     } else {
         $(".login-cover").show();
@@ -255,6 +264,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
         }
         dialog.showModal();
     }
+
 });
 
 $('#loginBtn').click(function () {
@@ -274,26 +284,8 @@ $('#loginBtn').click(function () {
     }
 })
 
-// Data for events
-// add click event for liked events and store event to database
-
-// $("#event_select_item").on("click", function (event) {
-//     event.preventDefault();
 
 
-//     // Code in the logic for storing and retrieving the most recent user.
-//     // Don't forget to provide initial data to your Firebase database.
-//     eventTitle = $("#data-")
-//     UID = $("#data-")
-
-
-//     // Code for the push
-//     database.ref("events/").push({
-//         eventTitle: eventTitle,
-//         UID: UID,
-//         dateAdded: firebase.database.ServerValue.TIMESTAMP
-//     });
-// });
 
 // ====================================================
 
