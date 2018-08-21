@@ -109,8 +109,8 @@ $("#searchingBtn").on("click", function () {
 // Firebase
 var dataRef = firebase.database();
 // Get Elements
-const txtEmail = document.getElementById("txtEmail");
-const txtPassword = document.getElementById("txtPassword");
+const txtEmail = document.getElementById("loginEmail");
+const txtPassword = document.getElementById("loginPassword");
 const btnLogin = document.getElementById('btnLogin');
 const btnSignUp = document.getElementById('btnSignUp');
 const btnLogout = document.getElementById('btnLogout');
@@ -154,6 +154,15 @@ btnLogout.addEventListener('click', function (e) {
 // Add a realtime listener
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
     if (firebaseUser) {
+        // Hide login cover
+        $(".login-cover").hide();
+
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.close();
+
         console.log(firebaseUser);
         $('#btnLogout').show()
 
@@ -216,42 +225,34 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
         });
 
     } else {
-        console.log('not logged in');
-        $('#btnLogout').hide();
+        $(".login-cover").show();
+        var dialog = document.querySelector('#loginDialog');
+        if (!dialog.showModal) {
+            dialogPolyfill.registerDialog(dialog);
+        }
+        dialog.showModal();
+
     }
 });
 
-// Data for events
-// add click event for liked events and store event to database
-
-// $("#event_select_item").on("click", function (event) {
-//     event.preventDefault();
-
-
-//     // Code in the logic for storing and retrieving the most recent user.
-//     // Don't forget to provide initial data to your Firebase database.
-//     eventTitle = $("#data-")
-//     UID = $("#data-")
-
-
-//     // Code for the push
-//     dataRef.ref("events/").push({
-//         eventTitle: eventTitle,
-//         UID: UID,
-//         dateAdded: firebase.database.ServerValue.TIMESTAMP
-//     });
-// });
-
-// ====================================================
 
 
 // =============================================================
 
 
+$('#loginBtn').click(function () {
+    var email = $('#loginEmail').val();
+    var password = $('#loginPassword').val();
 
+    if (email != "" && password != "") {
+        $('#loginProgress').show();
+        $('#loginBtn').hide();
 
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            $('#loginError').show().text(error.message);
+            $('#loginProgress').hide();
+            $('#loginBtn').show();
+        })
 
-// ====================================================
-
-
-// =============================================================
+    }
+})
