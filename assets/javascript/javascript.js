@@ -282,7 +282,7 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
 
 });
 
-$('#loginBtn').click(function () {
+$('#btnLogin').click(function () {
     var email = $('#loginEmail').val();
     var password = $('#loginPassword').val();
 
