@@ -1,3 +1,16 @@
+function slugify(text) {
+    return text.toString().toLowerCase().trim()
+        .replace(/&/g, '-and-')
+        .replace(/[\s\W-]+/g, '-')
+        .replace(/[^a-zA-Z0-9-_]+/g, '');
+}
+
+function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+};
+
 // From: https://getbootstrap.com/docs/4.0/components/forms/
 // This is the Bootstrap that haldles the "Event Search Card" buttons
 // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -76,26 +89,28 @@ $("#searchingBtn").on("click", function () {
                 var eventImgUrl = "assets/images/eventDefaultImg.jpg";
             }
             var eventType = response.events[i].type;
+            var eventVenue = response.events[i].venue.address;
             var eventDate = response.events[i].datetime_local;
             var fixEventDate = fixTheDateAndTime(eventDate);
             var cardEventTitle = response.events[i].title;
             var cardEventID = response.events[i].id;
+
+
+
             $("#event_select_container").append(
                 `<div class="card event_select_item" style="width: 16rem;" data-event_id="${cardEventID}" data-event_title="${cardEventTitle}">
                     <img class="card-img-top event_img ${noImg}" data-type=${eventType} src="${eventImgUrl}" alt="Event image">
                     <div class="card-body">
                         <h5 class="card-title">${cardEventTitle}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${fixEventDate}</h6>
-                        <p class="card-text">${cardEventID}</p>
-                        <a href="#" class="btn btn-primary">Pick event</a>
+                        <p class="card-text">${eventVenue}</p>
+                        <a data-event_id=${cardEventID} class="btn btn-primary event-btn">Pick event</a>
                     </div>
                 </div>`)
 
         }
 
-        console.log("-----------------");
         $(".noImg").each(function () {
-            console.log(this);
             var type = $(this).attr("data-type");
             var imgSrc = $(this);
             // Unsplash API url for query search:
@@ -104,7 +119,6 @@ $("#searchingBtn").on("click", function () {
                 url: imgQueryURL,
                 method: "GET"
             }).then(function (response) {
-                console.log(imgSrc);
                 var newImg = (response.results[0].urls.small);
                 imgSrc.attr("src", newImg);
             });
@@ -112,17 +126,6 @@ $("#searchingBtn").on("click", function () {
 
     });
 
-    // "set info" after choosing an event card
-    $(document).on("click", ".event_select_item", function () {
-        event.preventDefault();
-        //console.log($(this)) - that's another way to get info;
-        var eventID = this.getAttribute("data-event_id");
-        // for loop to check if the id was used
-        // if not - create this event on firebase
-        var eventTitle = this.getAttribute("data-event_title");
-        $("#event_comment_window").text(eventTitle);
-        //$("#event_comment_users").text();  -  get all users to this event from Firebase
-    });
 
 });
 
@@ -130,7 +133,7 @@ $("#searchingBtn").on("click", function () {
 
 // ==================================================================
 // Firebase
-var database = firebase.database();
+var database = firebase.database();;
 // Get Elements
 const txtEmail = document.getElementById("loginEmail");
 const txtPassword = document.getElementById("loginPassword");
@@ -158,12 +161,8 @@ btnSignUp.addEventListener('click', function (e) {
 
     console.log(email);
 
-
-
-
     //Sign in
     const promise = auth.createUserWithEmailAndPassword(email, pass);
-
 
 })
 
@@ -171,6 +170,15 @@ btnSignUp.addEventListener('click', function (e) {
 btnLogout.addEventListener('click', function (e) {
     firebase.auth().signOut();
 })
+
+var eventPostsRef;
+function handleNewBlogPost(snapshot) {
+    var newPost = snapshot.val();
+    $("#comments").prepend('<div class="comment">' +
+        '<h4>' + escapeHtml(newPost.name) + '</h4>' +
+        '<div class="profile-image"><img src="http://www.gravatar.com/avatar/' + escapeHtml(newPost.md5Email) + '?s=100&d=retro"/></div> ' +
+        '<span class="date">' + moment(newPost.postedAt).fromNow() + '</span><p>' + escapeHtml(newPost.message) + '</p></div>');
+}
 
 // Add a realtime listener
 firebase.auth().onAuthStateChanged(function (firebaseUser) {
@@ -194,10 +202,17 @@ firebase.auth().onAuthStateChanged(function (firebaseUser) {
             var eventTitle = this.getAttribute("data-event_title");
             $("#event_comment_window").text(eventTitle);
             var eventID = this.getAttribute("data-event_id");
-
+            $("#event_comment_details h5").text(eventID)
             var alreadyClicked = false;
 
 
+            $('.comment').remove()
+
+            if (eventPostsRef) {
+                eventPostsRef.off("child_added", handleNewBlogPost);
+            }
+            eventPostsRef = database.ref('events').child(eventID).child('blog');
+            eventPostsRef.on("child_added", handleNewBlogPost);
 
             database.ref('events/' + eventID).once('value', function (snapshot) {
 
@@ -284,19 +299,25 @@ $('#loginBtn').click(function () {
     }
 })
 
+// Comments
 
+$("#event-comment-btn").on("click", function (element) {
+    event.preventDefault();
 
+    eventIDforComment = $("#event_comment_details h5")[0].innerHTML;
+    var userMessage = $("#message").val();
+    var userName = $("#name").val();
+    var userEmail = $("#email").val();
 
-// ====================================================
+    var eventPostsRef = database.ref('events/' + eventIDforComment);
+    postRef = eventPostsRef.child(slugify(window.location.pathname));
 
+    eventPostsRef.child("/blog/").push({
+        name: userName,
+        message: userMessage,
+        md5Email: md5(userEmail),
+        postedAt: Firebase.ServerValue.TIMESTAMP
+    });
 
-// =============================================================
-
-
-
-
-
-// ====================================================
-
-
-// =============================================================
+    $("input[type=text], textarea").val("");
+});
