@@ -133,7 +133,7 @@ body {
 }
 
 a.btn-primary {
-    color: white;
+    color: white !important;
 }
 
 
