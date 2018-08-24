@@ -16,12 +16,9 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
-
-
-
 </head>
 
 <body>
@@ -58,7 +55,6 @@
 
     <div class="container">
 
-
         <!-- Header -->
         <h1>Appvanture</h1>
 
@@ -68,8 +64,6 @@
         </div>
 
         <!-- Event Search Card -->
-
-
         <div>
             <h2>Find the Best Event for You!</h2>
         </div>
@@ -89,8 +83,6 @@
 
     </div>
 
-
-
     <br>
     <!-- Event Select Card -->
     <div class="row" id="eventcard">
@@ -101,20 +93,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12" id="event_select_container">
-
-                        <!-- An example of a card: -->
-
-                        <!--<div class="card event_select_item" style="width: 16rem;">
-                                    <img class="card-img-top" src="http://via.placeholder.com/250x130" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Event title</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">date and time</h6>
-                                        <p class="card-text">Some information about this event like location, links to ticket websites etc.
-                                        </p>
-                                        <a href="#" class="btn btn-primary">Pick event</a>
-                                    </div>
-                                </div>-->
-
+                        <!--** all event card go here: **-->
                     </div>
                 </div>
             </div>
@@ -171,7 +150,9 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div id="comments"></div>
+                                <div id="comments">
+                                    <!--** all event coments go here: **-->
+                                </div>
                             </div>
                         </div>
 
@@ -182,14 +163,13 @@
     </div>
     </div>
 
+
     <!-- JQuery -->
     <script src='https://code.jquery.com/jquery-3.3.1.min.js' integrity='sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8='
         crossorigin='anonymous'></script>
-
     <!-- Appventure Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.4.0/firebase.js"></script>
     <script>
-        // Initialize Firebase
         var config = {
             apiKey: "AIzaSyDSAITKGVjxvg1E336zHfJNohuvwi09kao",
             authDomain: "appventure-6eab7.firebaseapp.com",
